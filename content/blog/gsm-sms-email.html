@@ -1,0 +1,40 @@
+---
+title: SMS to Email on a GSM Module
+description: Troubleshooting sending an email using a Sparkfun GSM Module
+created: !!timestamp '2012-05-23 17:00:00'
+tags:
+    - programming
+---
+
+I spent way too much time Googling for an answer to this problem, shocked that nobody else seemed to have encountered it before. Hopefully this is helpful to someone else in their pursuits...
+
+The Problem:
+I'm working on something right now that utilizes an Arduino with a [SM5100B based GSM Shield][SparkfunGSM]. I wanted to send an SMS to an email address through the carrier's SMS gateway. Sending regular SMS was pretty straight forward using the text mode (not PDU mode) as shown in the tutorials.  
+Directly trying to send an SMS to the email address does not work. It didn't take too long to find that to SMS an email address, the destination number is carrier specific gateway.  For AT&T, 121 works, although it may be an "old" gateway. The message itself is formatted in one of two ways:
+
+emailaddress (subject) message
+
+OR
+
+emailaddress message
+
+When I tried to do that, the message sent successfully. VICTORY!
+... but wait.
+
+I never got an email. I noticed I had an incoming SMS on the GSM module saying that my message could not be delivered because of an InvalidPduControl.  Huh?  Most Google results for InvalidPduControl said something about trying to send an SMS more than 160 characters. Definitely not my problem.
+
+The Solution
+Like most breakthroughs, this solution came to me completely out of the blue while thinking about something else. An SMS is typically limited to 160 characters. But that's not the whole story. To fit 160 characters, the SMS must be encoded into 7-bit characters and fit into 140 bytes. I wondered... what if the @ symbol isn't included in that 7-bit character set? I had seen something in the AT command document about changing the encoding. 
+
+Check out AT+CSMP in the [SM5100B AT Command Set Document][ATCommands]. We are interested in the DCS parameter. The following command switches to 8-bit characters:
+AT+CMGS=19,143,0,1
+
+Now let's try that again:
+AT+CMGF=1
+AT+CMGS="121"
+>dummy@jeffmelville.com testing(Ctrl-Z)
+
+Boom. It worked.
+
+[SparkfunGSM]: http://www.sparkfun.com/products/9607
+[ATCommands]: http://www.sparkfun.com/datasheets/CellularShield/SM5100B%20AT%20Command%20Set.pdf
