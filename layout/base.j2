@@ -23,6 +23,7 @@
         compatibility mode is within the first 1K bytes
         code.google.com/p/chromium/issues/detail?id=23003 -->
 
+
   <title>{% block title %}{{ resource.meta.title }}{% endblock %}</title>
   <meta name="description" content="{{ resource.meta.description }}">
   <meta name="author" content="{{ resource.meta.author }}">
@@ -38,8 +39,10 @@
   {% endblock favicons %}
 
   {% block css %}
-  <link rel="stylesheet" href="{{ media_url('css/site.css') }}">
+  <!-- <link rel="stylesheet" href="{{ media_url('css/site.css') }}"> -->
+  <link rel="stylesheet" href="{{ media_url('css/styles.css') }}">
   <link rel="stylesheet" href="{{ media_url('css/syntax.css') }}">
+  <link href="http://fonts.googleapis.com/css?family=Abel|Arvo" rel="stylesheet" type="text/css" />
   {% endblock css %}
 
   {% block headjs %}
@@ -51,36 +54,47 @@
 </head>
 <body id="{{ resource.meta.id if resource.meta.id else resource.slug }}">
   {% block content %}
-  <div id="container">
-      {% block container %}
-      <div id="main" role="main">
-          <header class="banner clearfix">
-          {% block header -%}
-            <h1>BASIC</h1>
-            <h3>A hyde website</h3>
-          {%- endblock %}
+  <div class="container">
+        {% block container %} 
+    <header>
+      {% block header %}
+      <div class="logoContainer">
+            <h1><a href=""><span>melville</span></a></h1>
+            <p>musings</p>
+        </div>
+        <ul>
+          <li><a href=""><img src="{{ media_url('images/icon1.png') }}" alt=""></a></li>
+            <li><a href=""><img src="{{ media_url('images/icon2.png') }}" alt=""></a></li>
+            <li><a href=""><img src="{{ media_url('images/icon3.png') }}" alt=""></a></li>
+        </ul>
+        <br class="clearfloat" />
+    </header>
+    <section>
+        <img src="{{ media_url('images/peru_crop.jpg') }}" alt="">
           {% block nav %}
           {% from "macros.j2" import render_nav with context %}
-          {{ render_nav(menu, 'main_nav') }}
-          {% endblock %}
-          </header>
-          <section class="content">
+          {{ render_nav(menu, 'main_nav') }} 
+          {% endblock nav %}
+          {% endblock header %}
+          <div class="welcomeContainer">
+            <h2>Welcome</h2>
+          </div>
+          <div class="mainContent">
           {% block main %}
           {% endblock main %}
-          </section>
-      </div>
+        </div>
     {% endblock container %}
+  </section>
   </div> <!--! end of #container -->
-  <footer>
-      Powered by <a href="http://ringce.com/hyde">hyde</a>.
+
+  <footer><p>
+      Powered by <a href="http://ringce.com/hyde">hyde</a>, Designed by <a href="http://www.free-responsive-templates.com" title="free responsive templates">Free Responsive Templates</a>.</p>
   </footer>
-  {% endblock content%}
+  {% endblock content %}
   {% block js %}
   <!-- Javascript at the bottom for fast page loading -->
   {% block jquery %}
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.5.1.min.js">\x3C/script>')</script>
+    <script src="{{ media_url('js/libs/jquery-1.7.1.min.js') }}"></script>
   {% endblock jquery %}
 
   {% block scripts %}
