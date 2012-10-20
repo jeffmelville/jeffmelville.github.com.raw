@@ -1,20 +1,11 @@
 ---
 extends: base.j2
-default_block: main
+default_block: welcome
 title: Jeff Melville
 description: Web page of Jeff Melville
 ---
 
-{% from "macros.j2" import render_excerpt with context %}
-<section class="blog_excerpt">
-{% set latest = site.content.walk_resources_sorted_by_time()|first %}
-
-{% if latest -%}
-{{ render_excerpt(latest, 'post') }}
-
-<a class="button white medium"
-    href="{{ content_url(latest.url) }}">Read more&hellip;</a>
-
-{%- endif %}
-
-</section>
+<h2 align="center">Jeff Melville</h2>
+<h3 align="center">
+    I'm Jeff, an upstate NY transplant living in Boston. Welcome to my website.
+</h3>

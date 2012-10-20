@@ -42,6 +42,7 @@
   <!-- <link rel="stylesheet" href="{{ media_url('css/site.css') }}"> -->
   <link rel="stylesheet" href="{{ media_url('css/styles.css') }}">
   <link rel="stylesheet" href="{{ media_url('css/syntax.css') }}">
+  <link rel="stylesheet" href="{{ media_url('webicons/fc-webicons.css') }}">
   <link href="http://fonts.googleapis.com/css?family=Abel|Arvo" rel="stylesheet" type="text/css" />
   {% endblock css %}
 
@@ -63,9 +64,14 @@
             <p>musings</p>
         </div>
         <ul>
-          <li><a href=""><img src="{{ media_url('images/icon1.png') }}" alt=""></a></li>
+          <li><a href="" class="fc-webicon github" alt="Github"></a></li>
+            <li><a href="" class="fc-webicon googleplus" alt="Google+"></a></li>
+            <li><a href="" class="fc-webicon linkedin" alt="LinkedIn"></a></li>
+            <li><a href="" class="fc-webicon rss" alt="RSS"></a></li>
+          <!-- <li><a href=""><img src="{{ media_url('images/icon1.png') }}" alt=""></a></li>
             <li><a href=""><img src="{{ media_url('images/icon2.png') }}" alt=""></a></li>
-            <li><a href=""><img src="{{ media_url('images/icon3.png') }}" alt=""></a></li>
+            <li><a href=""><img src="{{ media_url('images/icon3.png') }}" alt=""></a></li> 
+          -->
         </ul>
         <br class="clearfloat" />
     </header>
@@ -77,11 +83,17 @@
           {% endblock nav %}
           {% endblock header %}
           <div class="welcomeContainer">
-            <h2>Welcome</h2>
+            {% block welcome %}
+            {% endblock welcome %}
           </div>
           <div class="mainContent">
           {% block main %}
           {% endblock main %}
+          {% filter markdown|typogrify -%}
+{% mark post -%}
+{% block post -%}{%- endblock %}
+{%- endmark %}
+{%- endfilter %}
         </div>
     {% endblock container %}
   </section>
